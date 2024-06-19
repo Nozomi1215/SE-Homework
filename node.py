@@ -7,7 +7,6 @@ class Component(ABC):
 
     def __init__(self):
         self.name = None
-        self.icon = None
         self.last_flag = False
 
     @property
@@ -31,6 +30,10 @@ class Component(ABC):
     def operation(self) -> str:
         pass
 
+    @abstractmethod
+    def elements_count(self) -> int:
+        pass
+    
     def create_iterator(self):
         raise NotImplementedError("This method should be overridden.")
 
@@ -38,8 +41,11 @@ class Leaf(Component):
     def operation(self) -> str:
         return f"Leaf: {self.name}"
 
+    def elements_count(self) -> int:
+        return 1
+    
     def create_iterator(self):
-        return iter([])  # Leaf nodes return an empty iterator
+        return iter([])
 
 class Composite(Component):
     def __init__(self) -> None:
@@ -63,5 +69,11 @@ class Composite(Component):
             results.append(child.operation())
         return f"Branch: {self.name}({'+'.join(results)})"
 
+    def elements_count(self) -> int:
+        results = 0
+        for child in self._children:
+            results += child.elements_count()
+        return results
+    
     def create_iterator(self):
         return iter(self._children)

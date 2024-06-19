@@ -21,10 +21,6 @@ class Builder(ABC):
         pass
 
     @abstractmethod
-    def set_icon(self) -> None:
-        pass
-
-    @abstractmethod
     def set_parent(self) -> None:
         pass
 
@@ -47,9 +43,6 @@ class CompositeBuilder(Builder):
 
     def set_flag(self, flag) -> None:
         self._product.last_flag = flag
-
-    def set_icon(self, icon: Icon) -> None:
-        self._product.icon = icon.node
 
     def set_parent(self, parent) -> None:
         self._product.parent = parent
@@ -74,9 +67,6 @@ class LeafBuilder(Builder):
     def set_flag(self, flag) -> None:
         self._product.last_flag = flag
 
-    def set_icon(self, icon: Icon) -> None:
-        self._product.icon = icon.leaf
-
     def set_parent(self, parent) -> None:
         self._product.parent = parent
 
@@ -93,16 +83,14 @@ class Director:
         self._builder = builder
 
 
-    def build_composite(self, name, flag, icon, parent) -> node.Composite:
+    def build_composite(self, name, flag, parent) -> node.Composite:
         self.builder.set_name(name)
         self.builder.set_flag(flag)
-        self.builder.set_icon(icon)
         self.builder.set_parent(parent)
         return self.builder.product
 
-    def build_leaf(self, name, flag, icon, parent) -> node.Leaf:
+    def build_leaf(self, name, flag, parent) -> node.Leaf:
         self.builder.set_name(name)
         self.builder.set_flag(flag)
-        self.builder.set_icon(icon)
         self.builder.set_parent(parent)
         return self.builder.product

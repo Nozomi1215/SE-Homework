@@ -1,18 +1,18 @@
 {
     "icon1": {
-        "node": "♢", 
+        "composite": "♢", 
         "leaf": "♤"
     },
     "icon2": {
-        "node": "☼", 
+        "composite": "☼", 
         "leaf": "☽"
     },
     "icon3": {
-        "node": "▷", 
+        "composite": "▷", 
         "leaf": "▶"
     },
     "icon4": {
-        "node": "☺", 
+        "composite": "☺", 
         "leaf": "☻"
     }
 }
