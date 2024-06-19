@@ -2,7 +2,6 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import List
 
-
 class Component(ABC):
 
     def __init__(self):
@@ -33,7 +32,7 @@ class Component(ABC):
     @abstractmethod
     def elements_count(self) -> int:
         pass
-    
+
     def create_iterator(self):
         raise NotImplementedError("This method should be overridden.")
 

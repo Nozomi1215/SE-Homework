@@ -38,21 +38,18 @@ class Tree(Style):
         print("Tree style created")
 
     def render_leaf(self, component: Component) -> None:
-        if component.name:
-            print(': ' + component.name)
-        else:
-            print('')
+        print(': ' + component.name if component.name else '')
 
     def render_composite(self, component: Component) -> None:
         if component.parent is not None:
             self.render_composite(component.parent)
-            print('   ' if component.last_flag else '│  ', end='')
+            print('  ' if component.last_flag else '│ ', end='')
 
     def render(self, component: Component) -> None:
         if component.parent is not None:
             self.render_composite(component.parent)
             icon = self.icon.composite if component._children and component._children[0].is_composite() else self.icon.leaf
-            print(f'{"└─" if component.last_flag else "├─"}{icon}{component.name}', end='')
+            print(f'{"└─" if component.last_flag else "├─"}{icon}{' '}{component.name}', end='')
             if icon == self.icon.composite:
                 print('')
         for child in component._children:
@@ -67,10 +64,10 @@ class Rectangle(Style):
     def __init__(self):
         super().__init__()
         print("Rectangle style created")
-        self.max_length = 50
+        self.max_length = 40
         self.current_length = 0
-        self.begin_mark = '┌' 
-        self.end_mark = '┐'
+        self.head_fill = '┌' 
+        self.tail_fill = '┐'
         self.last_line = False
 
     def is_last_line(self, component: Component) -> bool:
@@ -84,30 +81,30 @@ class Rectangle(Style):
     def render_leaf(self, component : Component) -> None:
         content = ': ' + component.name if component.name else ''
         line_fill = '─' * (self.max_length - self.current_length - len(content) - 1)
-        print(content + line_fill + self.end_mark)
+        print(content + line_fill + self.tail_fill)
     
     def render_composite(self, component: Component) -> None:
         if component.parent is not None:
             self.render_composite(component.parent)
-            self.current_length += 3
-            print('└──' if self.last_line else '│  ', end='')
+            self.current_length += 2
+            print('└─' if self.last_line else '│ ', end='')
 
     def render(self, component: Component) -> None:
         if component.parent is not None:
             self.current_length = 0
             self.render_composite(component.parent)
             icon = self.icon.composite if component._children and component._children[0].is_composite() else self.icon.leaf
-            print(self.begin_mark + '─' + icon + component.name, end='')
-            self.current_length += 3 + len(component.name)
-            self.begin_mark = '├'
+            print(self.head_fill + '─' + icon + ' ' + component.name, end='')
+            self.current_length += len(component.name)
+            self.head_fill = '├'
             if icon == self.icon.composite:
-                print('─' * (self.max_length - self.current_length - 1) + self.end_mark)
-                self.end_mark = '┤'
+                print('─' * (self.max_length - self.current_length -1) + self.tail_fill)
+                self.tail_fill = '┤'
         for child in component._children:
             if child.is_composite():
                 if not child._children[0].is_composite() and self.is_last_line(child):
-                    self.begin_mark = '┴'
-                    self.end_mark = '┘'
+                    self.head_fill = '┴'
+                    self.tail_fill = '┘'
                 self.render(child)
             else:
                 self.render_leaf(child)
