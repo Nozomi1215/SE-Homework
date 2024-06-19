@@ -19,3 +19,6 @@
 <img src="figs/tree+icon3.png"  width="400"> <img src="figs/tree+icon4.png"  width="400">
 
 ## 类图
+
+<img src="figs/ClassDiagram.png"  width="600">
+
